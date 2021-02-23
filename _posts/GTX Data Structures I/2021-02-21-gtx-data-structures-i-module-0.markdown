@@ -1,0 +1,411 @@
+---
+layout: post
+title: "Module 0"
+date: 2020-01-26
+categories: gtx cs1332x1
+permalink: /:categories/:date/:title
+---
+
+Course URL: [https://app.pluralsight.com/library/courses/writing-clean-code-humans/table-of-contents](https://app.pluralsight.com/library/courses/writing-clean-code-humans/table-of-contents)
+
+---
+
+## SUMMARY
+
+### Module 0: Introduction. Review of important Java principles involved in object-oriented design; Iterator/Iterable design patterns, Comparable/Comparator interfaces, basic “Big-Oh” notation, and asymptotic analysis.
+
+---
+
+## References
+
+- Writing JUnits (https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view)[https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view]
+- Running JUnits (https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view)[https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view]
+- Data Structures and Algorithms Visualizations (https://csvistool.com/)[https://csvistool.com/]
+
+---
+
+## Java review
+
+#### Visibility modifiers:
+
+- public
+- protected
+- package private
+- private
+  Allow varying levels of access from the following:
+- world
+- subclasses
+- package
+- class and inner classes
+
+#### this
+
+this refers to the current instance of the class.
+this is used inside methods and constructors of a class.
+
+#### constructor chaining
+
+Constructor chaining is using the "this()" keyword to reference a constructor in the current class.
+
+- Constructor chaining cannot be used to call a constructor in the super class. For that, use the super() keyword.
+- Must be the first line in the constructor.
+- Can only call once.
+- Constructors cannot be chained in a way that would cause a loop. Straight line is best practice.
+
+Constructor examples below:
+
+```java
+public class Point {
+  private double x;
+  private double y;
+
+  // example 1: full constructor
+  public Point(double a, double b) {
+    x = a;
+    y = b;
+  }
+
+  // example 2: full constructor
+  // use "this" to refer to the current instance, to differentiate multiple variables of the same name
+  public Point(double x, double y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  // example 3: constructor chaining
+  // refer to an existing constructor with this(), set only one variable -- the rest can be set later
+  public Point (double a) {
+    this(a, 0);
+  }
+}
+
+```
+
+### reference vs. value equality
+
+- reference equality:
+
+  - checks if two objects occupy the same memory space.
+  - == operator
+    - primarily used to check if an object is null
+
+- value equality:
+
+  - checks if two objects are equal based on user's use case and design
+  - .equals() method from the Object class
+    - defaults to same result as ==
+    - primitives do not extend the Object class, so you must use == with them and there is no differentiation between reference and value equality
+
+- Key difference: Reference equality is important to check for uniqueness
+
+#### String literals
+
+- String literals are created by declaring a string in quotes "This is a string".
+- In this case, each string is a literal/constant stored in the String pool for faster access.
+- Like primitives, string literals have no difference between reference and value equality.
+- String literals DO extend Object, so you can check with .equals();
+- e.g. String literal = "This is a string."
+
+- Strings can also be created with the new keyword, like other Objects.
+- In this case, the string does have a difference between reference and value equality.
+- e.g. String object = new String("This is a string.");
+
+- Note that using == will only return true amongst string literals.
+- Using .equals() will return true between literals and objects because the function handles the variations.
+
+#### Null checking
+
+- Invoking a method or a field of a null object yields a NullPointerException
+  - Passing null as a parameter to the .equals() method will yield a NullPointerException
+- This is why == is used for null checking.
+  - e.g. nullObject == null; // => true
+
+#### Wrapper objects
+
+- Like String objects, each of the primitive types have a wrapper Object class (i.e. int -> Integer, double -> Double, etc.)
+- While primitives are optimized, there are times where you need an Object for the code to work.
+- Generic typings implictly require the type to inherit from the Object class, meaning that if you wanted to make some Collection of ints, then you'd need to make Integer objects to add rather than primitives.
+
+#### Pass by value and pass by reference
+
+- Pass by value:
+  - The helper method takes in the value of what was passed in. Changing its value will change the value of the local variable, but not the value of the original variable (because they reference two different locations in memory).
+  - Java is a pass by value language.
+  - The original variable and the parameter variable are unrelated to each other besides the value they store
+- Pass by reference:
+  - The helper method takes in the reference for what was passed in. Changing its value will change the value of both the local variable and the original variable (because they reference the same location in memory).
+
+```java
+// Unlike javascript, java is a pass by reference language
+// This doesn't work
+public static void main(String[] args) {
+    Container count = new Container(0);     // step 1: create new Container named count
+    helper(count);                          // step 2: call the helper method on count
+    System.out.println(count.getItem());    // step 4: print out the value of count
+}
+
+public static void helper(Container x) {
+    x = new Container(x.getItem() + 1);     // step 3: create a new object reference with
+                                            // its item set to x's item + 1
+}
+
+
+// This does work.
+// Note how helper must explicitly return a value that must be set directly to count
+public static void main(String[] args) {
+    int count = 0;                      // step 1: create a new int named count
+    count = helper(count);              // step 2: call helper on count
+                                        // step 5: assign the returned value to count (still on the line above, but after the function call)
+    System.out.println(count);          // step 6: print the value of count
+}
+
+public static int helper(int x) {
+    x = x + 1;                          // step 3: increment the value of x
+    return x;                           // step 4: return the value of x
+}
+
+// To pass by reference an object
+// The duplicate count object points to the same object so the value x within both objects can be directly modified
+public static void main(String[] args) {
+    Container count = new Container(0);     // step 1: create new Container named count
+    helper(count);                          // step 2: call helper on count
+    System.out.println(count.getItem());    // step 4: print the value of count
+}
+
+public static void helper(Container x) {
+    x.setItem(x.getItem() + 1);             // step 3: set x's item to x's item + 1, modifying the original object
+}
+
+//
+```
+
+### Generics
+
+Sample generic class:
+
+```java
+// T is the type parameter
+public class Container<T> {
+    private T t;
+
+    public void set(T t) {
+        this.t = t;
+    }
+
+    public T get() {
+        return t;
+    }
+}
+
+Container<String> c1 = new Container<String>();
+c1.set("hello");
+String s = c1.get(); // You do not have to cast the result of get, it must be String
+
+Container<String> c2 = new Container<String>();
+c2.set("hello");
+Integer i = (Integer)c2.get(); // Attempting to cast get to Integer will result in a compile-time error
+
+```
+
+- Declare generic classes with one (or more) type parameters in angle brackets after the class name
+- When we declare instances of generic classes, we use angle brackets to invoke the generic type. When we initialize instances of generic classes, we also use angle brackets:
+
+```java
+ArrayList<Integer> listOne = new ArrayList<Integer>();
+
+```
+
+- Java allows us to remove the explicit type argument from the initialization, as the compiler can infer the type argument from the declaration. This can be useful to prevent repetition when writing code. The empty angle brackets are commonly referred to as "the diamond":
+
+ArrayList<Integer> listOne = new ArrayList<Integer>();
+
+Notice the usage of angle brackets on both sides of the equals sign.
+
+```java
+ArrayList<String> list = new ArrayList<>();
+```
+
+- Note java does not allow us to create an array of generic types
+
+```java
+// Error
+T[] backingArray = new T[10];
+
+// Create a new array of Objects and then cast to an array of Ts.
+T[] backingArray = (T[]) new Object[10];
+```
+
+- Multiple type parameters are declared and instantiated similar to classes with single type parameters
+
+```java
+class HashMap<K, V> { ... }
+HashMap<String, Integer> map = new HashMap<>();
+
+```
+
+- Generic classes as Type Parameters
+- You might need to "nest" type parameters when declaring and instantiating collections of generic types:
+
+Note that nodeList is an ArrayList which contains instances of the BSTNode class, which itself uses T as its type parameter.
+
+```java
+ArrayList<BSTNode<T>> nodeList = new ArrayList<>();
+```
+
+---
+
+## Iterator/Iterable design patterns
+
+#### The Iterable interface
+
+- Handles the task of iterating through data.
+- Is an abstraction that allows the implementing class to be iterated through with a for-each loop.
+- Has abstract method called Iterator() that returns an Iterator object to handle traversing the data structure.
+- Is contained in the java.lang package, does not have to be explicitly imported.
+
+#### Abstract Methods
+
+- To implement the iterator interface, a class must override the next and hasNext methods
+
+```java
+// Returns next data in iteration order
+public abstract T next();
+
+// Returns whether there is more data
+public abstract boolean hasNext();
+
+// Optional remove method will remove the data last retrieved using the next method
+public void remove();
+```
+
+#### Cursor variable
+
+- Keeps track of the current data
+- Within the iterator object
+- Contained in the java.util package, which must be imported to iterate
+- The next method keeps track of the current data that the cursor is tracking, then moves the cursor to the next element
+- The hasNext method returns true when the cursor is not null
+
+#### How to iterate through a class
+
+```java
+// 1. import Iterator from java.util
+import java.util.Iterator;
+public class BookList<Book> implements Iterator<Book> {
+  // Implementations omitted
+  // 2. Override the next and hasNext methods
+  public void next() {...}
+  public boolean hasNext() {...}
+}
+
+// Assuming we have a BookList object called bookList:
+// 3. Implement a while loop!
+while (bookList.hasNext()) {
+  System.out.println(bookList.next());
+}
+
+// You can also print data using Iterable
+// 1.
+import java.util.Iterator;
+public class BookList<Book> implements Iterable<Book> {
+  // implementation omitted
+  public Iterator<Book> iterator() {...}
+}
+
+// Assuming we have a BookList object called bookList:
+Iterator<Book> bookIterator = bookList.iterator();
+while(bookIterator.hasNext()) {
+  System.out.println(bookIterator.next());
+}
+
+// When the BookList object is iterable, we can now use a for each loop to print out all of the values without using any of the iterator methods
+for (Book book : bookList) {
+  System.out.println(book);
+}
+```
+
+#### Iterable
+
+- Allows for direct control of object iteration for more custom behavior
+- Depends on both data structure and iterator
+- Iterable is dependent on iterator
+
+#### Iterator
+
+- Abstracts control away from user to allow the convenience for more generic needs
+- Has no dependencies besides data structure to iterate through
+- Iterator is independent of iterable
+
+#### Summary
+
+Iterable allows a class to be iterated over, either by the returned Iterator from the iterator() method or by a for-each loop (which internally, uses an Iterator).
+
+- You might have to use a for-each loop to iterate efficiently through Java collections like ArrayList and LinkedList. These, among other classes, implement Iterable for us already. You can see which classes implement Iterable in Java's documentation: (https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)[https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html]
+
+```java
+Using a for-each loop can be sometimes more efficient than a regular for loop.
+
+List<String> foods = new LinkedList<>();
+structures.add("pasta");
+structures.add("pizza");
+structures.add("soup");
+
+// this for-each loop is more efficient...
+for (String food: foods) {
+    System.out.println("I love eating " + food + "!");
+}
+
+// ...rather than this regular for loop
+for (int i = 0; i < foods.size(); i++) {
+    String food = foods.get(i); // this line requires Java to internally iterate through a portion of the linkedlist again
+    System.out.println("I love eating " + food + "!");
+}
+```
+
+---
+
+## Comparable/Comparator interfaces
+
+- Comparable and comparator are tools we use to compare object.
+- Both are independent of each other, unlike Iterable and Iterator.
+
+#### Comparable
+
+- An object that implements the comparable interface can directly compare itself to another object using the compare to method.
+- Allows the implementing class to define a "natural ordering."
+  - In Java, the natural ordering for integers is to be in ascending order
+  - e.g.
+
+```java
+public int compareTo(T y);
+x.compareTo(y)
+
+// x < y => negative
+// x = y => 0
+// x > y => positive
+```
+
+#### Comparator
+
+- The user can use a Comparator to compare two objects of the same type using the compare method
+- Allows the implementing class to define a custom "ordering" that is different from the natural ordering defined by the Comparable compare to method
+  - e.g. We can use a Comparator to redefine integers to be in descending order
+
+```java
+public int compare(T x, T y);
+comp.compare(x, y);
+
+// x < y => negative
+// x = y => 0
+// x > y => positive
+```
+
+- e.g. Student Objects using Comparator
+
+```java
+
+```
+
+## Big O Notation
+
+## Asymptotic analysis
