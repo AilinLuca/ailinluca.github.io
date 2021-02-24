@@ -403,9 +403,127 @@ comp.compare(x, y);
 - e.g. Student Objects using Comparator
 
 ```java
+// Given a student class
+public class Student {
+  String name;
+  int age;
+  String major;
+  // Implementation omitted
+}
+
+// NameComparator
+// Can define x < y if x's name comes first alphabetically
+
+// AgeComparator
+// Can define x < y if x's age is less than y's age
+
+// MajorComparator
+// Can define x < y if x's major comes first alphabetically
+
+```
+
+- e.g. HDTV class
+
+````java
+// Implementing comparable interface
+public class HDTV implements Comparable<HDTV> {
+  private int size;
+  private String brand;
+  public int getSize() { return size; }
+  public String getBrand() { return brand; }
+}
+
+// To correctly implement the Comparable interface, we need to override the int compareTo method
+public int compareTo(HDTV tv) {
+  // We can compare based on any of the fields; this example uses size
+  if (size < tv.size) { return -1; }
+  else if (size > tv.size) { return 1; }
+  else { return 0; } // if sizes are equal
+}
+
+// The above method can be simplified
+public int compareTo(HDTV tv) {
+  return size - tv.size;
+}
+
+// To implement the same as above with comparator instead
+import java.util.Comparator // not in the java.lang library like comparable is
+public class HDTV {
+  private int size;
+  private String brand;
+  public int getSize() { return size; }
+  public String getBrand() { return brand; }
+}
+
+// Overriding the compare object
+// Because outside of the class, needs getter methods
+class SizeComparator implements Comparator<HDTV> {
+  public int compare(HDTV tv1, HDTV tv2) {
+    return tv1.getSize() - tv2.getSize();
+  }
+}
+```
+
+## Summary
+We know now that we can define a natural ordering of objects of a certain class by either having the class implement Comparable or by writing a different class that implements Comparator.
+
+In this course, some data structures we encounter might use one of these two "comparing" classes to maintain an internal sorted order. For example, when we talk about binary search trees, we'll see how their nodes implement Comparable so they can maintain an ordering between nodes.
+
+To take a closer look, let's consider the following MenuItem class:
+```java
+class MenuItem implements Comparable {
+    private String name;
+    private int price;
+
+    public MenuItem(String name, int price) { ... }
+
+    int compareTo(MenuItem otherItem) {
+        return otherItem.price - this.price;
+    }
+}
+```
+
+It's important to remember that we can should call compareTo() on a MenuItem object rather than using the Java operators < (less than) or > (greater than):
+
+```java
+MenuItem item1 = new MenuItem("cheesesteak", 4);
+MenuItem item2 = new MenuItem("cheesecake", 7);
+
+// we should compare these items like this:
+if (item1.compareTo(item2) < 0) {
+...
+}
+
+// this DOES NOT work:
+if (item1 < item2) {
+...
+}
+```
+
+It's also important to remember that the values returned by compareTo() are not guaranteed to be [-1, 0, 1]
+
+```java
+// this works properly
+if (item1.compareTo(item2) < 0) {
+System.out.println(item1.name + " is cheaper than " + item2.name);
+} else if (item1.compareTo(item2) > 0) {
+System.out.println(item1.name + " is more expensive than " + item2.name);
+} else {
+System.out.println(item1.name + " and " + item2.name + " are the same price!");
+}
+
+// this does NOT work properly: (item2.price - item1.price) is 3, so the first two conditions are false
+if (item1.compareTo(item2) == -1) {
+System.out.println(item1.name + " is cheaper than " + item2.name);
+} else if (item1.compareTo(item2) == 1) {
+System.out.println(item1.name + " is more expensive than " + item2.name);
+} else {
+System.out.println(item1.name + " and " + item2.name + " are the same price!");
+}
 
 ```
 
 ## Big O Notation
 
 ## Asymptotic analysis
+````
