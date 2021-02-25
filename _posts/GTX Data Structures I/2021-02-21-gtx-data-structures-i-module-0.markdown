@@ -362,6 +362,10 @@ for (int i = 0; i < foods.size(); i++) {
 }
 ```
 
+#### Additional Iterator Resource
+
+- Slides (https://courses.edx.org/assets/courseware/v1/0459269ca52191135b92f49642611b57/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/Iterators.pdf)[https://courses.edx.org/assets/courseware/v1/0459269ca52191135b92f49642611b57/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/Iterators.pdf]
+
 ---
 
 ## Comparable/Comparator interfaces
@@ -424,7 +428,7 @@ public class Student {
 
 - e.g. HDTV class
 
-````java
+```java
 // Implementing comparable interface
 public class HDTV implements Comparable<HDTV> {
   private int size;
@@ -465,11 +469,13 @@ class SizeComparator implements Comparator<HDTV> {
 ```
 
 ## Summary
+
 We know now that we can define a natural ordering of objects of a certain class by either having the class implement Comparable or by writing a different class that implements Comparator.
 
 In this course, some data structures we encounter might use one of these two "comparing" classes to maintain an internal sorted order. For example, when we talk about binary search trees, we'll see how their nodes implement Comparable so they can maintain an ordering between nodes.
 
 To take a closer look, let's consider the following MenuItem class:
+
 ```java
 class MenuItem implements Comparable {
     private String name;
@@ -520,10 +526,92 @@ System.out.println(item1.name + " is more expensive than " + item2.name);
 } else {
 System.out.println(item1.name + " and " + item2.name + " are the same price!");
 }
-
 ```
 
 ## Big O Notation
 
+#### Description of Big O
+
+- Measure both time and space efficiency
+- Platform/hardware independent
+- High level description of algorithm
+- Performance scales in relation to the input sizes
+- The complexity of an algorithm is how efficient the algorithm is in terms of input sizes
+
+#### How to calculate Big O
+
+- Primitive operations execute in constant time, so just count them:
+
+  - Assign value
+  - Arithmetic operations
+  - Comparing two entities
+  - Method call or return from method
+  - Access element or follow a reference
+
+  - Note: The assumption that these operations can be done quickly is only valid if you are working with manageable, small units. For example, suppose we are multiplying two integers, which pretty simple to write code for in Java.
+    - If your numbers are small enough that they fit into an int (32-bit) or a long (64-bit) typing, then the multiplication will be fast since Java optimizes computations with primitive types. However, if your numbers are very long, then the length of your numbers may pose a significant computational task since there is no longer a simple low-level instruction that can do it for you!
+
+#### Measuring efficiency as a function
+
+- f(n) represents the function of primitive operations on an input of size n
+- There are 3 cases:
+  - Worst case - _ This is Big O for this course _
+    - The algorithm running with the worst set of data, worst performance
+  - Best case
+    - The algorithm running with the best designed set of data, fastest performance
+  - Average case
+    - Somewhere between and difficult to compute
+
+#### Big O Notation
+
+- Denoted O(f(n)) where n is the size of our inputs, f(n) is a function representing the scaling of the algorithm with n
+- Typically represents the upper bound, but this course focuses on the most acccurate upper bound
+  - e.g. everything in this course is O(n^4) but this is not helpful
+  - Here we are looking for the tightest upper bound on the performance of an algorithm
+
+---
+
 ## Asymptotic analysis
-````
+
+#### Common complexities (from optimal, descending order)
+
+- Constant O(1)
+- Logarithmic O(log(n))
+- Linear O(n)
+- Log-Linear O(nlog(n))
+- Quadratic O(n^2)
+- Cubic O(n^3)
+- Exponential O(a^n) where a is a constant
+
+- This difference between polynomial and exponential time is the highlight of the famous P != NP problem in computer science.
+
+#### Other measures of asymptotic complexity
+
+- 𝑂(𝑓(𝑛)) : The algorithm's long-term performance cost is upper bounded by 𝑓(𝑛). This is the most common asymptotic notation that you will see, and you will become very familiar with it in this course.
+- 𝑜(𝑓(𝑛)): The algorithm's long-term performance cost is significantly upper bounded by 𝑓(𝑛). This measure is often used if we want to emphasize how small a quantity is or how slowly it grows. For example, in many numerical methods, we may want to approximate some quantity within a reasonable error. It's common to denote the error term using Little-oh notation to show that the error term grows slowly.
+- Ω(𝑓(𝑛)): The algorithm's long-term performance cost is lower bounded by 𝑓(𝑛). This measure is interesting because it requires us to flip our line of thinking. Rather than thinking about how badly our algorithm can perform like in Big-O, this measure is often times used to tell us what performance costs are reasonable to begin with for a problem. If we have an algorithm that has time complexity 𝑂(𝑛4), we may think to ourselves "yikes...," but if the problem the algorithm is solving has a complexity of Ω(𝑛4), then we realize that our algorithm wasn't so bad, it's just that the problem is very hard to solve!
+- Θ(𝑓(𝑛)): The algorithm's long-term performance cost is both lower bounded and upper bounded by 𝑓(𝑛). In other words, it is both 𝑂(𝑓(𝑛)) and Ω(𝑓(𝑛)). Not all algorithms will have a valid Big-Theta since it requires the algorithm to have consistent enough behavior that we can sandwich it from both above and below.
+
+#### Conventions
+
+- Drop constant factors
+  - O(5n) -> O(n)
+  - O(0.5n^2) -> O(n^2)
+  - Although they don't matter theoretically, always keep them in mind in practice as they may influence which processes are more efficient for the scale of the specific task
+- Drop lower order terms
+  - O(n^2 + 1000n + 3) -> O(n^2)
+  - O(3n + 2log(n) + nlog(n)) -> O(nlog(n))
+
+#### Examples
+
+- O(1)
+  - Given an array of length n, returning the first element
+- O(n)
+  - Given an array of length n, summing up all elements in the array
+- O(log(n))
+  - The base doesn't matter due to change of base (m constant)
+  - Given a sorted array of length n and performing a binary search
+
+#### Additional Resources Analysis of Algorithms
+
+- Slides (https://studio.edx.org/assets/courseware/v1/997d3accfcbe528362cba9071513a565/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/AnalysisOfAlgorithms.pdf)[https://studio.edx.org/assets/courseware/v1/997d3accfcbe528362cba9071513a565/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/AnalysisOfAlgorithms.pdf]
