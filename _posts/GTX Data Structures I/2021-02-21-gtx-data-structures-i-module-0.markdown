@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Module 0"
-date: 2020-01-26
+date: 2021-02-21
 categories: gtx cs1332x1
 permalink: /:categories/:date/:title
 ---
@@ -18,9 +18,9 @@ Course URL: [https://app.pluralsight.com/library/courses/writing-clean-code-huma
 
 ## References
 
-- Writing JUnits (https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view)[https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view]
-- Running JUnits (https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view)[https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view]
-- Data Structures and Algorithms Visualizations (https://csvistool.com/)[https://csvistool.com/]
+- Writing JUnits [https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view](https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view)
+- Running JUnits [https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view](https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view)
+- Data Structures and Algorithms Visualizations [https://csvistool.com/](https://csvistool.com/)
 
 ---
 
@@ -340,7 +340,7 @@ for (Book book : bookList) {
 
 Iterable allows a class to be iterated over, either by the returned Iterator from the iterator() method or by a for-each loop (which internally, uses an Iterator).
 
-- You might have to use a for-each loop to iterate efficiently through Java collections like ArrayList and LinkedList. These, among other classes, implement Iterable for us already. You can see which classes implement Iterable in Java's documentation: (https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)[https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html]
+- You might have to use a for-each loop to iterate efficiently through Java collections like ArrayList and LinkedList. These, among other classes, implement Iterable for us already. You can see which classes implement Iterable in Java's documentation: [https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html](https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)
 
 ```java
 Using a for-each loop can be sometimes more efficient than a regular for loop.
@@ -364,7 +364,7 @@ for (int i = 0; i < foods.size(); i++) {
 
 #### Additional Iterator Resource
 
-- Slides (https://courses.edx.org/assets/courseware/v1/0459269ca52191135b92f49642611b57/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/Iterators.pdf)[https://courses.edx.org/assets/courseware/v1/0459269ca52191135b92f49642611b57/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/Iterators.pdf]
+- Slides [https://courses.edx.org/assets/courseware/v1/0459269ca52191135b92f49642611b57/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/Iterators.pdf](https://courses.edx.org/assets/courseware/v1/0459269ca52191135b92f49642611b57/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/Iterators.pdf)
 
 ---
 
@@ -614,4 +614,4 @@ System.out.println(item1.name + " and " + item2.name + " are the same price!");
 
 #### Additional Resources Analysis of Algorithms
 
-- Slides (https://studio.edx.org/assets/courseware/v1/997d3accfcbe528362cba9071513a565/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/AnalysisOfAlgorithms.pdf)[https://studio.edx.org/assets/courseware/v1/997d3accfcbe528362cba9071513a565/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/AnalysisOfAlgorithms.pdf]
+- Slides [https://studio.edx.org/assets/courseware/v1/997d3accfcbe528362cba9071513a565/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/AnalysisOfAlgorithms.pdf](https://studio.edx.org/assets/courseware/v1/997d3accfcbe528362cba9071513a565/asset-v1:GTx+CS1332xI+2T2020+type@asset+block/AnalysisOfAlgorithms.pdf)
