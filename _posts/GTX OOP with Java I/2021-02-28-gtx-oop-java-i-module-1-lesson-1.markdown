@@ -119,5 +119,3 @@ Note how the name does not have the .class extension.
   - Java Runtime Environment (or JRE) is specifically used to execute Java code, and does not include writing and compiling.
   - The instructions for downloading and installing the JDK version that's required for the demos\* and assignments in this class can be found [HERE](https://courses.edx.org/assets/courseware/v1/e632beecc04ac111f6420bc1a07f9fb8/asset-v1:GTx+CS1331xI+2T2020+type@asset+block/Installing_Java_Guide__JDK_11_.pdf).
     - This particular version is free and avoids any licensing restrictions on the programs you generate with it.
-
----
