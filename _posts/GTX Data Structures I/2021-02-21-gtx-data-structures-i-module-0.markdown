@@ -2,7 +2,7 @@
 layout: post
 title: "Module 0"
 date: 2021-02-21
-categories: gtx cs1332x1
+categories: gtx cs1332xI
 permalink: /:categories/:date/:title
 ---
 
