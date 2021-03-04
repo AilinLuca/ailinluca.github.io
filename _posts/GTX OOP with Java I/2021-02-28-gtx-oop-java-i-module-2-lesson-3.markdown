@@ -12,7 +12,7 @@ Course URL: [https://learning.edx.org/course/course-v1:GTx+CS1331xI+2T2020/block
 
 ## SUMMARY
 
-### Module 2 Lesson 3: Back to basics
+## Module 2 Lesson 3: Back to basics
 
 - Understand how the following fundamental programming concepts are manifested in Java: whitespace, commenting, errors, variables, types, expressions, and casting.
 
