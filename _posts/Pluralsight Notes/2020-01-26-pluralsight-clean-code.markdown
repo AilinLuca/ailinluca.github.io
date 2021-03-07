@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "Clean Code - Writing Code for Humans"
-date: 2020-01-26
+title: Clean Code - Writing Code for Humans
 categories: clean-code
-permalink: /:categories/:date/:title
+permalink: date
 ---
 
 Course URL: [https://app.pluralsight.com/library/courses/writing-clean-code-humans/table-of-contents](https://app.pluralsight.com/library/courses/writing-clean-code-humans/table-of-contents)

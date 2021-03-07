@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "Module 1 Lesson 2"
-date: 2021-02-28
+title: Module 1 Lesson 2
 categories: gtx cs1331xI
-permalink: /:categories/:date/:title
+permalink: date
 ---
 
 Course URL: [https://learning.edx.org/course/course-v1:GTx+CS1331xI+2T2020/block-v1:GTx+CS1331xI+2T2020+type@sequential+block@8d5ddaca3fc64141b9b5c9928ca64881/block-v1:GTx+CS1331xI+2T2020+type@vertical+block@33dd330d1001467ea930ba71c085083e](https://learning.edx.org/course/course-v1:GTx+CS1331xI+2T2020/block-v1:GTx+CS1331xI+2T2020+type@sequential+block@8d5ddaca3fc64141b9b5c9928ca64881/block-v1:GTx+CS1331xI+2T2020+type@vertical+block@33dd330d1001467ea930ba71c085083e)

@@ -1,8 +1,7 @@
 ---
 layout: post
-title: "Module 1"
-date: 2021-02-24
-categories: gtx cs1332x1
+title: Module 1
+categories: gtx cs1332xI
 permalink: /:categories/:date/:title
 ---
 
@@ -270,3 +269,7 @@ public int gcd(int x, int y) {
 
 - structural recursion
   - recursion based on some underlying structure or object rather than numbers like in the factorial, fibonacci, exponentiation, and gcd examples
+
+---
+
+## Assignment
