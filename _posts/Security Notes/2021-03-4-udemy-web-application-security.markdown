@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Udemy - Web Application Security fro Absolute Beginners
+title: Udemy - Web Application Security for Absolute Beginners
 categories: security
 permalink: pretty
 ---
@@ -9,13 +9,13 @@ Course URL: [https://ibm-learning.udemy.com/course/web-application-security-for-
 
 ---
 
-## SUMMARY
+### SUMMARY
 
 OWASP top 10 common cyber security attacks! Stop hackers, manage web application security and apply security principles!
 
 ---
 
-## OWASP Top 10
+### OWASP Top 10
 
 Open Web Application Security Project
 
@@ -38,7 +38,7 @@ Open Web Application Security Project
 
 ---
 
-## Injection
+### Injection
 
 - Untrusted user input is interpreted by server and executed
 - Data can be stolen, modified, or deleted.
@@ -49,7 +49,7 @@ Open Web Application Security Project
   - Never trust user input
 - Most common type: SQL injection
 
-## Broken Authentication and Session Management
+### Broken Authentication and Session Management
 
 - Incorrectly build auth. and session management scheme that allows an attacker to impersonate another user.
 - Attacker can take identity of victim.
