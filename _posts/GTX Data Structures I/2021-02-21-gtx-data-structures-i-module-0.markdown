@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Module 0
+title: GTX Data Structures I - Module 0
 categories: ["gtx", "cs1332xI"]
-permalink: /:categories/:date/:title
+permalink: pretty
 ---
 
 Course URL: [https://app.pluralsight.com/library/courses/writing-clean-code-humans/table-of-contents](https://app.pluralsight.com/library/courses/writing-clean-code-humans/table-of-contents)

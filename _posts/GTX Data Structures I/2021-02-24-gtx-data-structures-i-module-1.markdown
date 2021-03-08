@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Module 1
+title: GTX Data Structures I - Module 1
 categories: gtx cs1332xI
-permalink: /:categories/:date/:title
+permalink: pretty
 ---
 
 Course URL: [https://learning.edx.org/course/course-v1:GTx+CS1332xI+2T2020/block-v1:GTx+CS1332xI+2T2020+type@sequential+block@1b64b5c8d73f444a94a18c3a03207684/block-v1:GTx+CS1332xI+2T2020+type@vertical+block@92e7ec2a2a414912b911744535a5640b](https://learning.edx.org/course/course-v1:GTx+CS1332xI+2T2020/block-v1:GTx+CS1332xI+2T2020+type@sequential+block@1b64b5c8d73f444a94a18c3a03207684/block-v1:GTx+CS1332xI+2T2020+type@vertical+block@92e7ec2a2a414912b911744535a5640b)

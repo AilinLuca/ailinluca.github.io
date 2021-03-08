@@ -2,7 +2,7 @@
 layout: post
 title: Udemy - Web Application Security fro Absolute Beginners
 categories: security
-permalink: date
+permalink: pretty
 ---
 
 Course URL: [https://ibm-learning.udemy.com/course/web-application-security-for-absolute-beginners-no-coding/learn/lecture/8084852#overview](https://ibm-learning.udemy.com/course/web-application-security-for-absolute-beginners-no-coding/learn/lecture/8084852#overview)
