@@ -218,3 +218,42 @@ are what you input into the form before clicking "submit" -->
   - Add the fonts you want
   - Paste the link into the head
   - Paste in the font(s) in the css
+
+#### Dynamic font sizes
+
+- Setting font size in px is not dynamic
+- Most browsers have a default of 16px font size, but users can adjust this in the settings
+
+  - For accessibility, if settings changed, %, em and rem will adjust
+  - However, some argue that users are more likely to zoom in, in which case px are also OK
+
+- Dynamic options:
+
+  - %
+    - Percent of default size
+    - Inherited, so it will compound in size based on each parent font settings.
+      - Although when you inspect, it may look like parent font size settings are crossed out, they actually do apply.
+  - em
+    - Also inherited, aka factor of the parent element font size.
+  - rem
+
+    - In CSS3
+    - Factor of the root element font size
+    - Recommended. Because not inherited, is less error-prone.
+
+  - All these dynamic options can be used in other sizes, like margins, though you may prefer pixels because they are more consistent.
+
+#### Float and Clear
+
+- Float will move item inline and text will wrap.
+  - `float: left;` will move image to the left, and text will wrap on the right.
+  - Only use float for wrapping text! This will help you avoid edge case errors.
+- Clear will prevent the text from wrapping around the float image.
+  - `clear: left;` will negate the `float: left;`
+
+---
+
+### Bootstrap
+
+- Bootstrap has pre-styled classes that you can use by adding them to your elements.
+- CDN stands for content delivery network. Hosts content in multiple locations around the world to speed up delivery.
