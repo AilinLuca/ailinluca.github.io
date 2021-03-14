@@ -115,10 +115,7 @@ Course URL: [https://ibm-learning.udemy.com/course/the-complete-web-development-
 
 ---
 
-### The Drumkit Challenge
-
-- See on github
-  []()
+### The Drumkit Challenge Notes
 
 Adding event listeners:
 
@@ -280,9 +277,104 @@ buttons.forEach(function (button) {
   increment(41); // => 42
   ```
 
-  5. WIP
+  5. Usually regular functions are the way to define methods on classes.
 
-  Source: [https://dmitripavlutin.com/differences-between-arrow-and-regular-functions/](https://dmitripavlutin.com/differences-between-arrow-and-regular-functions/)
+  ```
+  // function logName()
+  class Hero {
+  constructor(heroName) {
+    this.heroName = heroName;
+  }
+
+  logName() {
+    console.log(this.heroName);
+  }
+  }
+  ```
+
+  When you need to supply the method as a callback, e.g. setTimeout() or an event listener, you might have trouble accessing the _this_ value.
+
+  ```
+  setTimeout(batman.logName, 1000);
+  // after 1 second logs "undefined"
+  ```
+
+  This is because the method is unbound from its object as explained (here)[https://dmitripavlutin.com/gentle-explanation-of-this-in-javascript/#32-pitfall-separating-method-from-its-object]:
+
+  - A method can be extracted from an object into a separated variable const alone = myObj.myMethod. When the method is called alone alone(), detached from the original object, you might think that _this_ is the object myObject on which the method was defined.
+
+  - Actually, a function invocation happens, where _this_ is the global object `window`, or `undefined` in strict mode.
+
+  - A bound function `const alone = myObj.myMethod.bind(myObj)` fixes the context by binding _this_ to the object that owns the method.
+
+  - The method entered in setTimeout() is separated from the object when passed as a parameter.
+
+  ```
+  function Pet(type, legs) {
+  this.type = type;
+  this.legs = legs;
+
+    this.logInfo = function() {
+      console.log(this === myCat); // => false
+      console.log(`The ${this.type} has ${this.legs} legs`);
+    }
+  }
+
+  const myCat = new Pet('Cat', 4);
+  setTimeout(myCat.logInfo, 1000);
+  // logs "The undefined has undefined legs"
+  // or throws a TypeError in strict mode
+
+
+  setTimeout(myCat.logInfo);
+
+  // is equivalent to:
+
+  const extractedLogInfo = myCat.logInfo;
+  setTimout(extractedLogInfo);
+  ```
+
+  - To solve this, you can use `.bind()`
+
+  ```
+  function Pet(type, legs) {
+  this.type = type;
+  this.legs = legs;
+
+    this.logInfo = function() {
+      console.log(this === myCat); // => true
+      console.log(`The ${this.type} has ${this.legs} legs`);
+    };
+  }
+
+  const myCat = new Pet('Cat', 4);
+
+  // Create a bound function
+  const boundLogInfo = myCat.logInfo.bind(myCat);
+  // logs "The Cat has 4 legs"
+  setTimeout(boundLogInfo, 1000);
+
+  ```
+
+  - Or you can use an arrow function
+
+  ```
+  function Pet(type, legs) {
+  this.type = type;
+  this.legs = legs;
+
+    this.logInfo = () => {
+      console.log(this === myCat); // => true
+      console.log(`The ${this.type} has ${this.legs} legs`);
+    };
+  }
+
+  const myCat = new Pet('Cat', 4);
+  // logs "The Cat has 4 legs"
+  setTimeout(myCat.logInfo, 1000);
+  ```
+
+Source: [https://dmitripavlutin.com/differences-between-arrow-and-regular-functions/](https://dmitripavlutin.com/differences-between-arrow-and-regular-functions/)
 
 ---
 
@@ -290,16 +382,16 @@ buttons.forEach(function (button) {
 
 - Get CDN link
 
-  - Google has one: https://developers.google.com/speed/libraries
-  - Place above javascript tag that contains the jQuery functions, at the foot of the html body.
-    - Do not put both script tags in the head, because again, the index.js may load faster than jQuery.
-    - Do not put CDN in head, because things in the head load slower.
-      - If you do, you must check if jQuery library is ready in index.js. (You do not need this if you just put them at the bottom of the body though.)
-      ```
-      $(document).ready(function() {
-        $("h1").css("color", "red");
-      });
-      ```
+- Google has one: https://developers.google.com/speed/libraries
+- Place above javascript tag that contains the jQuery functions, at the foot of the html body.
+  - Do not put both script tags in the head, because again, the index.js may load faster than jQuery.
+  - Do not put CDN in head, because things in the head load slower.
+    - If you do, you must check if jQuery library is ready in index.js. (You do not need this if you just put them at the bottom of the body though.)
+    ```
+    $(document).ready(function() {
+      $("h1").css("color", "red");
+    });
+    ```
 
 #### Minification vs. Compression
 
@@ -310,49 +402,52 @@ buttons.forEach(function (button) {
 
 - Manipulating styles
 
-  - `document.querySelector("h1");` is the same as `$("h1")`
-    - jQuery gets all h1s
-  - Manipulate CSS in jQuery using `$(elements).css(property, newValue)`
-  - `.addClass("class");`
-  - `.removeClass("class class");`
-    - Can handle multiple classes, just add them in the parameter with a space inbetween
-  - `.hasClass("class");`
-    - Returns bool
+- `document.querySelector("h1");` is the same as `$("h1")`
+  - jQuery gets all h1s
+- Manipulate CSS in jQuery using `$(elements).css(property, newValue)`
+- `.addClass("class");`
+- `.removeClass("class class");`
+  - Can handle multiple classes, just add them in the parameter with a space inbetween
+- `.hasClass("class");`
+
+  - Returns bool
 
 - Manipulating text
 
-  - `$("h1").text("New text");`
-  - `$("h1").html("<em>New text</em>")'`
-    - Allows you to update the inner HTML
+- `$("h1").text("New text");`
+- `$("h1").html("<em>New text</em>")'`
+
+  - Allows you to update the inner HTML
 
 - Manipulating attributes
 
-  - Get the attribute: `$("img").attr("src);`
-  - Set the attribute with the second parameter: `$("a").attr("href", "www.google.com");`
-  - You can get classes with attr. `$("h1").attr("class");`
+- Get the attribute: `$("img").attr("src");`
+- Set the attribute with the second parameter: `$("a").attr("href", "www.google.com");`
+- You can get classes with attr. `$("h1").attr("class");`
 
 - Adding event listeners with jQuery
 
-```
+````
+
 $("h1").click(function() {
-  $("h1").css("color", "purple");
+$("h1").css("color", "purple");
 })
 
 // equals
 document.querySelector("h1").forEach(h1, function () {
-  addEventListener("click", function () {
-    h1.style.color = purple";
-  })
+addEventListener("click", function () {
+h1.style.color = purple";
+})
 });
 
 $("body").keypress(function(e) {
-  console.log(e.key);
+console.log(e.key);
 })
 
 // If you want to get all keypresses:
 $(document).keypress(function(e) {
-  console.log(e.key);
-  $("h1").text(e.key);
+console.log(e.key);
+$("h1").text(e.key);
 })
 
 ```
@@ -360,10 +455,12 @@ $(document).keypress(function(e) {
 - A more generic way to add events with jQuery is "on", which takes parameter any DOM event
 
 ```
+
 $("h1").on("mouseover", function() {
-  console.log("boop");
+console.log("boop");
 })
-```
+
+````
 
 - Adding elements with jQuery
 
