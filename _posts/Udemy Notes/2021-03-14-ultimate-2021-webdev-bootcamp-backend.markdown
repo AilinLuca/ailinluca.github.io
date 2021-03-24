@@ -146,7 +146,7 @@ Course URL: [https://ibm-learning.udemy.com/course/the-complete-web-development-
     res.send("Thanks for posting that!");
   });
 
-  // express.urlEncoded(); parses post data
+  app.use(express.urlencoded({extended: true})); // parses post data
   app.post("/", (req, res) => {
       var n1 = req.body.n1;
       var n2 = req.body.n2;
