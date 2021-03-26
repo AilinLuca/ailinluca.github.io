@@ -318,8 +318,8 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  const apiKey = "48012793d86e19abd7eb49d535a834db-us1";
-  const listID = "0e605e08da";
+  const apiKey = "";
+  const listID = "";
   const url = `https://us1.api.mailchimp.com/3.0/lists/${listID}`;
   const options = {
     method: "POST",

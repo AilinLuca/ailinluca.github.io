@@ -246,6 +246,7 @@ app.listen(port, () => {
 
 - layouts are just ejs files with HTML snippets in the views folder
 - include them on other ejs pages with `<%- include("header"); -%>`
+- These partials are usually nested within a folder called "partials" inside the "views" folder
 
 ---
 
@@ -287,4 +288,9 @@ function getDay() {
 
 - In app.js, run the function with `let day = date.getDate();`
 
-#### const in Javascript
+---
+
+### Lodash
+
+- A node utility library
+- (lodash.com)[lodash.com]
