@@ -89,7 +89,7 @@ app.listen(port, () => {
 
 - (ejs.co/#docs)[ejs.co/#docs]
 - Different tags trigger different outputs
-  - `<%= variable tag =>`
+  - `<%= variable tag %>`
     - Outputs value into the template
   - `<% scriptlet tag %>`
     - For control flow, no output
