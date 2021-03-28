@@ -93,14 +93,6 @@ app.listen(port, () => {
     - Outputs value into the template
   - `<% scriptlet tag %>`
     - For control flow, no output
-    - Demo:
-    ```
-    <% if (day === "Monday") {%>
-        <h1 style="color: purple"><%= day %> ToDo List</h1>
-    <% else {%>
-        <h1 style="color: blue"><%= day %> ToDo List</h1>
-    <% } %>
-    ```
     - You do not want to write complex javascript with these; that should be handled by server.
     - This is only for control flow and things that would be hard for the server.
 

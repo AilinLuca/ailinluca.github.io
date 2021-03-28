@@ -127,26 +127,463 @@ INNER JOIN customers ON orders.customer_id = customers.id
 
 #### Installing MongoDB
 
-All of this is summarized with graphics at: (https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514)[https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514]
-
-1. Go to MongoDB.com
-2. Click on free community server. Download current release. (https://www.mongodb.com/try/download/community)[https://www.mongodb.com/try/download/community]
-3. Follow the Quick Start Guide at the bottom of the page:
-4. Move the unzipped downloaded folder to /usr/local/mongodb with `$ sudo mv [file address which can be populated by dragging the folder into terminal] /usr/local/mongodb `
-5. Check that the folder was successfully moved with `$ open /usr/local/mongodb`
-6. Add the mongo db binaries to environment variables by first cd to home `$ cd ~`. (`$ pwd ` should return Users/[your username])
-7. `$ touch .bash_profile`
-8. `$ open .`
-9. ` vim .bash_profile`
-   a. Get into insert mode by hitting "i"
-   b. Type `export PATH-$PATH:/usr/local/mongodb/bin`
-   c. Exit insert mode by hitting "esc"
-   d. Save and quit vim with ":wq!"
-10. Create the data directory. MongoDB by default writes all data to the /data/db directory. `$ mkdir -p /data/db`
-    - Note this may not work on newer Macs where /data/db becomes read-only. You will have to create a separate /data/db folder. Follow the homebrew install instructions here: (https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)[https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/]
-
-#### MongoDB CRUD Operations in the Shell
+For Macs, follow the homebrew install instructions here: (https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)[https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/]
 
 - Protip: Review CRUD first for every new database
 
-1. `$ mongod` spins up the mongo server
+#### Create
+
+1. For macs, `$ mongod --config /usr/local/etc/mongod.conf --fork` spins up the mongo server and runs it as a background process
+   a. Confirm this worked with `$ ps aux | grep -v grep | grep mongod`
+2. `$ mongo` starts the mongo shell
+3. See your 3 default databases with `> show dbs`. admin, config, and local.
+4. `> use shopDB`
+5. `> db` tells you which db you are working in.
+6. Create db with `> db.collection.insertOne()` e.g. `> db. products.insertOne({_id: 1, name: "Pen", price: 1.20})`
+   - If products doesn't exist, this code will create it in shopDB
+   - Collections are mongoDB's version of tables.
+7. In this case, `> show collections` will show product
+
+#### Read
+
+8. `> db.collection.find(query, projected)` queries data (query is the filter, project is the field to return). If you do not specify parameters, all data will display.
+   a. `> db.products.find({name: "Pencil"})` finds only products where the name is "Pencil"
+   b.`> db.product.find({price: {$gt: 1.0}})` finds only products where the price is greater than 1.0
+   c. `> db.users.find({age: {$gt: 18}}, {name: 1, address: 1}).limit(5)` finds the users older than 18 and returns their name and address. The "1" in the projection specifies that return name and address are true.
+
+#### Update
+
+9. `> db.products.updateOne({_id: 1}, {$set: {stock: 32}})` will query for item with id = 1 and create a stock field with value 32.
+
+#### Delete
+
+10. `> db.products.deleteOne({_id: 2})` will delete the ite with id = 2.
+
+#### Relationships in MongoDB
+
+- You can embed documents within other documents. E.g. you can add a reviews document in the pencil product:
+
+```> db.product.updateOne({name: "Pencil"}, {$set: {review: [{author: "Jane Doe", rating: 5, review: "Best pencil ever!"}]}})
+
+```
+
+- You can have an array that references the ids of other items. e.g. here productsOrdered is an array of product ids.
+
+```
+{
+    _id: 1,
+    name: "Pen",
+    price: 1.20,
+    stock: 32
+}
+
+{
+    _id: 2,
+    name: "Pencil",
+    price: 0.80,
+    stock: 12
+}
+
+{
+    orderNumber: 3243,
+    productsOrdered: [1, 2]
+}
+
+```
+
+#### MongoDB with Node.js
+
+Two options:
+
+1. Use Native Driver.
+2. Use ODM called Mongoose
+   a. Mongoose is more popular. It cuts down on code.
+
+MongoDB Native Driver
+
+- See the drivers at (https://docs.mongodb.com/ecosystem/drivers/)[https://docs.mongodb.com/ecosystem/drivers/]. There is a Node.js driver guide.
+- Create a new project following the quickstart guide here: (https://mongodb.github.io/node-mongodb-native/3.5/quick-start/quick-start/)[https://mongodb.github.io/node-mongodb-native/3.5/quick-start/quick-start/]
+
+```
+// Sample fruits project db app.js
+
+const MongoClient = require("mongodb").MongoClient;
+const assert = require("assert");
+
+// Connection URL
+const url = "mongodb://localhost:27017";
+
+// Database Name
+const dbName = "fruitsDB";
+
+// Create a new MongoClient
+const client = new MongoClient(url);
+
+// Use connect method to connect to the Server
+client.connect(function (err) {
+  assert.strictEqual(null, err);
+  console.log("Connected successfully to server");
+
+  const db = client.db(dbName);
+
+  //   insertDocuments(db, function () {
+  //     client.close();
+  //   });
+  findDocuments(db, function () {
+    client.close();
+  });
+});
+
+const insertDocuments = function (db, callback) {
+  // Get the document collection
+  const collection = db.collection("fruits");
+  // Insert some documents
+  collection.insertMany(
+    [
+      {
+        name: "Apple",
+        score: 8,
+        review: "Great fruit",
+      },
+      {
+        name: "Orange",
+        score: 6,
+        review: "Kind of sour",
+      },
+      {
+        name: "Banana",
+        score: 9,
+        review: "Great stuff!",
+      },
+    ],
+    function (err, result) {
+      assert.strictEqual(err, null);
+      assert.strictEqual(3, result.result.n);
+      assert.strictEqual(3, result.ops.length);
+      console.log("Inserted 3 documents into the collection");
+      callback(result);
+    }
+  );
+};
+
+const findDocuments = function (db, callback) {
+  // Get the documents collection
+  const collection = db.collection("fruits");
+  // Find some documents
+  collection.find({}).toArray(function (err, fruits) {
+    assert.strictEqual(err, null);
+    console.log("Found the following records");
+    console.log(fruits);
+    callback(fruits);
+  });
+};
+```
+
+---
+
+### Mongoose
+
+- Docs here: (https://mongoosejs.com/docs/)[https://mongoosejs.com/docs/]
+
+1. Cd into your project.
+2. `$ npm i mongoose`
+
+#### Deleting databases
+
+- Switch to the database with `> use fruitsDB`
+- `> db.dropDatabase()`
+
+```
+// mongoose app.js sample
+
+const mongoose = require("mongoose");
+// Opens mongo connection
+mongoose.connect("mongodb://localhost:27017/fruitsDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}); // this one line will create the database fruitsDB if it doesn't already exist
+
+const fruitSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    // This will make name required
+    required: [true, "Name is required"],
+  },
+  rating: {
+    type: Number,
+    // You can add built-in validators such as min and max
+    // Data that doesn't match the validation will not be inserted
+    min: 1,
+    max: 10,
+  },
+  review: String,
+});
+
+const Fruit = mongoose.model("Fruit", fruitSchema); // here establish the collection with the singular item of the collection Fruits and associated schema
+
+const apple = new Fruit({
+  name: "Apple",
+  rating: 7,
+  review: "Pretty solid as a fruit.",
+});
+
+//fruit.save(); // will save fruit document into fruit collection in fruitsDB
+// comment out if you don't want to keep adding the same fruit to the collection each time you run app.js
+
+// You can also add a collection of people to your fruitsDB
+const personSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  favoriteFruit: fruitSchema, // This is how you create a relationship
+});
+
+const Person = mongoose.model("Person", personSchema);
+
+const person = new Person({
+  name: "John",
+  age: 37,
+  favoriteFruit: apple,
+});
+
+// person.save();
+
+// You can also add multiple fruit at once
+const kiwi = new Fruit({
+  name: "Kiwi",
+  score: 10,
+  review: "The best fruit!",
+});
+
+const orange = new Fruit({
+  name: "Orange",
+  score: 4,
+  review: "Too sour",
+});
+
+const banana = new Fruit({
+  name: "Banana",
+  score: 10,
+  review: "So happy",
+});
+
+// Fruit.insertMany([kiwi, orange, banana], function (err) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Successfully saved all the fruits to fruitsDb");
+//   }
+// });
+
+// To find all the documents in your collection
+Fruit.find(function (err, fruits) {
+  if (err) {
+    console.log(err);
+  } else {
+    // It's good practice to close mongo connection when you are done
+    // This way you don't have to Ctrl+C out of terminal
+    // mongoose.connection.close();
+    fruits.forEach((a) => console.log(a.name));
+  }
+});
+
+// How to update data with mongoose
+Fruit.updateOne(
+  { _id: "605e7f39c210bbb6d9900818" },
+  { name: "Kiwano" },
+  function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Successfully updated the documents");
+    }
+  }
+);
+
+// How to delete data with mongoose
+Fruit.deleteOne({ name: "Orange" }, function (err) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Successfully deleted document");
+  }
+});
+
+```
+
+---
+
+### Updating todo list app with a database
+
+#### App.js
+
+```
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const _ = require("lodash");
+
+const date = require(__dirname + "/date.js");
+
+const port = 3000;
+
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+
+mongoose.connect("mongodb://localhost:27017/todolistDB", {
+  useNewUrlParser: true,
+});
+
+const itemsSchema = {
+  item: String,
+};
+
+const Item = mongoose.model("Item", itemsSchema);
+
+const item1 = new Item({
+  item: "Add your todos in the input below",
+});
+
+const item2 = new Item({
+  item: "<-- check box to delete",
+});
+
+const defaultItems = [item1, item2];
+const day = date.getDate();
+
+app.set("view engine", "ejs");
+
+app.get("/", (req, res) => {
+  Item.find({}, (err, items) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (items.length === 0) {
+        Item.insertMany(defaultItems, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("Successfully inserted default items");
+          }
+        });
+      }
+      res.render("list", { listTitle: day, newListItems: items });
+    }
+  });
+});
+
+app.post("/", (req, res) => {
+  const newItem = req.body.newItem;
+  const listName = req.body.list;
+
+  const item = new Item({
+    item: newItem,
+  });
+
+  if (listName === day) {
+    item.save();
+    res.redirect("/");
+  } else {
+    List.findOne({ name: listName }, (err, foundList) => {
+      if (err) {
+        console.log(err);
+      } else {
+        foundList.items.push(item);
+        foundList.save();
+        res.redirect("/" + listName);
+      }
+    });
+  }
+});
+
+app.post("/delete", (req, res) => {
+  const checkedItemId = req.body.checkbox;
+  const listName = req.body.listName;
+
+  console.log("checkedItemId: " + checkedItemId);
+  console.log("listName: " + listName);
+
+  if (listName === day) {
+    Item.findByIdAndRemove(checkedItemId, function (err) {
+      // note callback required to delete otherwise will only return query
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Successfully deleted item");
+        res.redirect("/"); // needed to reflect change
+      }
+    });
+  } else {
+    List.findOneAndUpdate(
+      { name: listName },
+      { $pull: { items: { _id: checkedItemId } } },
+      (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.redirect("/" + listName);
+        }
+      }
+    );
+  }
+});
+
+const listSchema = {
+  name: String,
+  items: [itemsSchema],
+};
+
+const List = mongoose.model("List", listSchema);
+
+// To dynamically render custom lists
+app.get("/:listName", (req, res) => {
+  const listName = _.capitalize(req.params.listName);
+  List.findOne({ name: listName }, (err, foundList) => {
+    if (err) {
+      console.log(err);
+    } else if (foundList) {
+      console.log("List already exists");
+      res.render("list", {
+        listTitle: foundList.name,
+        newListItems: foundList.items,
+      });
+    } else if (!foundList) {
+      console.log("Doesn't exist");
+      const list = new List({
+        name: listName,
+        items: defaultItems,
+      });
+      list.save();
+      res.redirect("/" + listName);
+    }
+  });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
+});
+
+```
+
+#### list.ejs
+
+```
+<%- include("header"); -%>
+<h1><%= listTitle %></h1>
+<form action="/delete" method="POST">
+    <% newListItems.forEach(a => { %>
+      <div></div><label><input type="checkbox" name="checkbox" value="<%= a._id %>" onchange="this.form.submit()"> <%= a.item %></label></div>
+      <% }) %>
+    <input type="hidden" name="listName" value="<%= listTitle %>"></input>
+</form>
+
+<form action="/" method="POST">
+  <input type="text" name="newItem" />
+  <button type="submit" name="list" value=<%=listTitle%>>Add</button>
+</form>
+<%- include("footer"); -%>
+
+```
