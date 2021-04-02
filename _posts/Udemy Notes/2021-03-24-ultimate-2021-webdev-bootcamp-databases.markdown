@@ -587,3 +587,14 @@ app.listen(port, () => {
 <%- include("footer"); -%>
 
 ```
+
+---
+
+### Deploying web apps with databases
+
+- node.js app will be hosted on heroku
+- mongodb database will be hosted on mongodb atlas
+
+#### Set up MongoDB Atlas
+
+It is well documented. Use the free AWS hosting based in North Virginia to create a cluster and complete the checklist.
