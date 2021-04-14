@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Clean Code - Writing Code for Humans
-categories: clean-code
-permalink: pretty
+categories: pluralsight clean-code
+permalink: /:title
 ---
 
 Course URL: [https://app.pluralsight.com/library/courses/writing-clean-code-humans/table-of-contents](https://app.pluralsight.com/library/courses/writing-clean-code-humans/table-of-contents)

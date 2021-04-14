@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Udemy - The Complete 2021 Web Development Bootcamp - Part 1 - Frontend Review
-categories: webdev
-permalink: pretty
+title: The Complete 2021 Web Development Bootcamp - Part 1 - Frontend Review
+categories: udemy webdev
+permalink: /:title
 ---
 
 Course URL: [https://ibm-learning.udemy.com/course/the-complete-web-development-bootcamp/learn/](https://ibm-learning.udemy.com/course/the-complete-web-development-bootcamp/learn/)

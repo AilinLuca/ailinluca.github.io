@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Udemy - The Complete 2021 Web Development Bootcamp - Part 5 - Databases
+title: The Complete 2021 Web Development Bootcamp - Part 5 - Databases
 categories: webdev
-permalink: pretty
+permalink: /:title
 ---
 
 Course URL: (https://ibm-learning.udemy.com/course/the-complete-web-development-bootcamp/learn/lecture/12385614#overview)[https://ibm-learning.udemy.com/course/the-complete-web-development-bootcamp/learn/lecture/12385614#overview]

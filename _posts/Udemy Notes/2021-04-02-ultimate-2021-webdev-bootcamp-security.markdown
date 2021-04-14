@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Udemy - The Complete 2021 Web Development Bootcamp - Part 7 - Authentication & Security
-categories: webdev
-permalink: pretty
+title: The Complete 2021 Web Development Bootcamp - Part 7 - Authentication & Security
+categories: udemy webdev
+permalink: /:title
 ---
 
 Course URL: (https://ibm-learning.udemy.com/course/the-complete-web-development-bootcamp/learn/lecture/13559376#notes)[https://ibm-learning.udemy.com/course/the-complete-web-development-bootcamp/learn/lecture/13559376#notes]

@@ -2,7 +2,7 @@
 layout: post
 title: GTX OOP with Java I - Module 2 Lesson 3
 categories: gtx cs1331xI
-permalink: pretty
+permalink: /:title
 ---
 
 Course URL: [https://learning.edx.org/course/course-v1:GTx+CS1331xI+2T2020/block-v1:GTx+CS1331xI+2T2020+type@sequential+block@e65719bfc19d4f629e19bf14d4496c24/block-v1:GTx+CS1331xI+2T2020+type@vertical+block@dc75dfe85b444741bbf321cb23fee344](https://learning.edx.org/course/course-v1:GTx+CS1331xI+2T2020/block-v1:GTx+CS1331xI+2T2020+type@sequential+block@e65719bfc19d4f629e19bf14d4496c24/block-v1:GTx+CS1331xI+2T2020+type@vertical+block@dc75dfe85b444741bbf321cb23fee344)

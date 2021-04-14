@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Udemy - The Complete 2021 Web Development Bootcamp - Part 4 - EJS
-categories: webdev
-permalink: pretty
+title: The Complete 2021 Web Development Bootcamp - Part 4 - EJS
+categories: udemy webdev
+permalink: /:title
 ---
 
 Course URL: [https://ibm-learning.udemy.com/course/the-complete-web-development-bootcamp/learn/lecture/12384810#overview](https://ibm-learning.udemy.com/course/the-complete-web-development-bootcamp/learn/lecture/12384810#overview)

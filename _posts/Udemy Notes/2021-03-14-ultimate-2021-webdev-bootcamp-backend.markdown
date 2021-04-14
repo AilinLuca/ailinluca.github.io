@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Udemy - The Complete 2021 Web Development Bootcamp - Part 3 - Backend Review
+title: The Complete 2021 Web Development Bootcamp - Part 3 - Backend Review
 categories: webdev
 permalink: pretty
 ---
