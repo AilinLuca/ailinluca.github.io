@@ -407,16 +407,6 @@ passport.deserializeUser((id, done) => {
 
 ---
 
-### Challenge
-
-#### Log in with Facebook
-
-1. Set up a new project at `https://developers.facebook.com/` and configure the app under "Settings > Basic".
-2. Install `npm i passport-facebook`
-3.
-
----
-
 ### Allowing users to add secrets
 
 1. Create the GET /submit route
@@ -454,4 +444,375 @@ app.get("/secrets", (req, res) => {
 <% usersWithSecrets.forEach((user) => { %>
     <p class="secret-text"><%=user.secret%></p>
 <% }) %>
+```
+
+---
+
+### Completed Code Reference
+
+#### app.js
+
+```
+//jshint esversion:6
+require("dotenv").config();
+const express = require("express");
+const ejs = require("ejs");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose"); // passport-local is a dependency, but does not need to be explicitly exposed
+const FacebookStrategy = require("passport-facebook").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const findOrCreate = require("mongoose-findorcreate");
+
+const app = express();
+const port = 3000;
+
+app.use(express.static("public"));
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+
+// set up passport session
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// initialize passport and use it to manage sessions
+app.use(passport.initialize());
+app.use(passport.session());
+
+mongoose.connect("mongodb://localhost:27017/userDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+mongoose.set("useCreateIndex", true);
+
+const userSchema = new mongoose.Schema({
+  // note only mongoose schemas can have plugins
+  email: String,
+  password: String,
+  googleId: String,
+  facebookId: String,
+  secret: String,
+});
+
+// add plugin to hash and salt passwords
+userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(findOrCreate);
+
+const User = mongoose.model("User", userSchema);
+passport.use(User.createStrategy());
+
+// The below code only works for local authentication
+// passport.serializeUser(User.serializeUser()); // serialise creates the user and stuffs their information into the cookie
+// passport.deserializeUser(User.deserializeUser()); // deserialise opens the cookie to read the user information
+
+// This code below replaces the above. It works for all kinds of authentication, not just local.
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/facebook/secrets",
+    },
+    // here google sends back access token, we will get their profile and use the data they get back to find or create a user in our database
+    // The default .findOrCreate() is pseudocode that you can implement or
+    // You can use the mongoose package findorcreate which will make it work
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/google/secrets",
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo", // where to get profile info
+    },
+    // here google sends back access token, we will get their profile and use the data they get back to find or create a user in our database
+    // The default .findOrCreate() is pseudocode that you can implement or
+    // You can use the mongoose package findorcreate which will make it work
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
+
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
+app.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: ["public-profile", "email"] })
+);
+
+app.get(
+  "/auth/facebook/secrets",
+  passport.authenticate("facebook", {
+    successRedirect: "/",
+    failureRedirect: "/fail",
+  })
+);
+
+// This tells passport to authenticate with the google strategy and specifies we want profile info
+// Note it is not in the usual Express syntax
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile"] })
+);
+
+// This defines what happens when authentication is successful
+app.get(
+  "/auth/google/secrets",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    res.redirect("/secrets");
+  }
+);
+
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.get("/logout", (req, res) => {
+  // de-authenticate user and send them back to home page
+  req.logout();
+  res.redirect("/");
+});
+
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+app.get("/secrets", (req, res) => {
+  User.find({ secret: { $ne: null } }, (err, foundUsers) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundUsers) {
+        res.render("secrets", { usersWithSecrets: foundUsers });
+      }
+    }
+  });
+});
+
+// If user is already logged in, render submit page; else redirect to login
+app.get("/submit", (req, res) => {
+  // Check if logged in, if not must log in
+  if (req.isAuthenticated()) {
+    res.render("submit");
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.post("/register", (req, res) => {
+  User.register(
+    { username: req.body.username },
+    req.body.password,
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/register");
+      } else {
+        // passport.authenticate creates a cookie and tells the browser to hold onto it
+        passport.authenticate("local")(req, res, () => {
+          res.redirect("/secrets");
+        });
+      }
+    }
+  );
+});
+
+app.post("/login", (req, res) => {
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password,
+  });
+
+  req.login(user, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    passport.authenticate("local")(req, res, function () {
+      res.redirect("/secrets");
+    });
+  });
+});
+
+app.post("/submit", (req, res) => {
+  const submittedSecret = req.body.secret;
+  // find the current user and save the secret to their file
+  // console.log(req.user.id); // Here you see the information req has about the current user
+  User.findById(req.user.id, (err, foundUser) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundUser) {
+        foundUser.secret = submittedSecret;
+        foundUser.save(() => {
+          res.redirect("/secrets");
+        });
+      }
+    }
+  });
+});
+
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
+});
+```
+
+#### login.ejs
+
+```
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+  <h1>Login</h1>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- Makes POST request to /login route -->
+          <form action="/login" method="POST">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" name="username" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" name="password" />
+            </div>
+            <button type="submit" class="btn btn-dark">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card social-block">
+        <div class="card-body">
+          <a class="btn btn-block" href="/auth/facebook" role="button">
+            <i class="fab fa-facebook"></i>
+            Log In with Facebook
+          </a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <a class="btn btn-block" href="/auth/google" role="button">
+            <i class="fab fa-google"></i>
+            Log In with Google
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+
+```
+
+#### register.ejs
+
+```
+<%- include('partials/header') %>
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <i class="fas fa-key fa-6x"></i>
+    <h1 class="display-3">You've Discovered My Secret!</h1>
+
+    <% usersWithSecrets.forEach((user) => { %>
+    <p class="secret-text"><%=user.secret%></p>
+    <% }) %>
+
+    <hr />
+
+    <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a>
+    <a class="btn btn-dark btn-lg" href="/submit" role="button"
+      >Submit a Secret</a
+    >
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+```
+
+#### secrets.ejs
+
+```
+<%- include('partials/header') %>
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <i class="fas fa-key fa-6x"></i>
+    <h1 class="display-3">You've Discovered My Secret!</h1>
+
+    <% usersWithSecrets.forEach((user) => { %>
+    <p class="secret-text"><%=user.secret%></p>
+    <% }) %>
+
+    <hr />
+
+    <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a>
+    <a class="btn btn-dark btn-lg" href="/submit" role="button"
+      >Submit a Secret</a
+    >
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
+```
+
+#### submit.ejs
+
+```
+<%- include('partials/header') %>
+
+<div class="container">
+  <div class="jumbotron centered">
+    <i class="fas fa-key fa-6x"></i>
+    <h1 class="display-3">Secrets</h1>
+    <p class="secret-text">Don't keep your secrets, share them anonymously!</p>
+
+    <form action="/submit" method="POST">
+
+      <div class="form-group">
+        <input type="text" class="form-control text-center" name="secret" placeholder="What's your secret?">
+      </div>
+      <button type="submit" class="btn btn-dark">Submit</button>
+    </form>
+
+
+  </div>
+</div>
+<%- include('partials/footer') %>
+
 ```
