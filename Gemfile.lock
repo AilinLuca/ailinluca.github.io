@@ -257,16 +257,18 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  arm64-darwin-21
   universal-darwin-19
   x86_64-darwin-20
 
 DEPENDENCIES
-  github-pages (~> 212)
+  github-pages
+  jekyll
   jekyll-feed
   jekyll-seo-tag
   jekyll-sitemap
   minima
-  webrick (~> 1.7)
+  webrick
 
 BUNDLED WITH
    2.2.13
