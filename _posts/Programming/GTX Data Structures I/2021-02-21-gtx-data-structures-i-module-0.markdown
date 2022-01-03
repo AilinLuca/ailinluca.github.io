@@ -17,9 +17,9 @@ Course URL: [https://app.pluralsight.com/library/courses/writing-clean-code-huma
 
 ## References
 
-- Writing JUnits [https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view](https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view)
-- Running JUnits [https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view](https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view)
-- Data Structures and Algorithms Visualizations [https://csvistool.com/](https://csvistool.com/)
+- Writing JUnits (https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view)[https://drive.google.com/file/d/1Pg4Ity9tbClmaGsHJUBErNrnObiOqy9e/view]
+- Running JUnits (https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view)[https://drive.google.com/file/d/15WWI7ioKjWQTKbL0PFgMq46H_rYcTeyU/view]
+- Data Structures and Algorithms Visualizations (https://csvistool.com/)[https://csvistool.com/]
 
 ---
 

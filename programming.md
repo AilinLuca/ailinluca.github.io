@@ -5,7 +5,7 @@ permalink: /programming/
 
 # Programming
 
-## [GTX](https://www.edx.org/) (free)
+## [EDX](https://www.edx.org/) (free)
 ### Data OOP with Java I
 {% for post in site.categories.cs1331xI %}
  <li><span>{{ post.date | date_to_string }}</span> &nbsp; <a href="{{ post.url }}">{{ post.title }}</a></li>

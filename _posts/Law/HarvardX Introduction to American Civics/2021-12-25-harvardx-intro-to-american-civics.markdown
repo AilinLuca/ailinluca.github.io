@@ -1,23 +1,23 @@
 ---
 layout: post
-title: Introduction to American Civics
+title: HarvardX L0 Introduction to American Civics 
 categories: ["law", "harvardx", "hls0ax"]
-permalink: pretty
+permalink: /:title
 ---
 
 Course URL: [https://learning.edx.org/course/course-v1:HarvardX+HLS0ax+2T2020/block-v1:HarvardX+HLS0ax+2T2020+type@sequential+block@8eb7593ef9f64358b8e89cf410c2effd/block-v1:HarvardX+HLS0ax+2T2020+type@vertical+block@52b40f5ce3e545dc9cff832daf960eb1](https://learning.edx.org/course/course-v1:HarvardX+HLS0ax+2T2020/block-v1:HarvardX+HLS0ax+2T2020+type@sequential+block@8eb7593ef9f64358b8e89cf410c2effd/block-v1:HarvardX+HLS0ax+2T2020+type@vertical+block@52b40f5ce3e545dc9cff832daf960eb1)
 
 ---
 
-## SUMMARY
+## Summary
 
-### Module 1: Kinds of Law. This module introduces you to some key distinctions you will encounter in the law, in particular distinctions between the main sources of law in the U.S. system: constitutions, statutes, regulations, and judicial decisions. 
+Module 1: Kinds of Law. This module introduces you to some key distinctions you will encounter in the law, in particular distinctions between the main sources of law in the U.S. system: constitutions, statutes, regulations, and judicial decisions. 
 
-### Module 2: What is Law? This module highlights the difficulties of determining what identifies a rule as a legal rule, as opposed to a rule of a game or of morality, and delves briefly into the relationship of law to morality.
+Module 2: What is Law? This module highlights the difficulties of determining what identifies a rule as a legal rule, as opposed to a rule of a game or of morality, and delves briefly into the relationship of law to morality.
 
-### Module 3: Federal vs. State Law and Order of Authorities. This module will help you understand the “order of authorities” (sometimes also called “hierarchy of authorities”) in the U.S. legal system – what sources of law prevail over other sources.
+Module 3: Federal vs. State Law and Order of Authorities. This module will help you understand the “order of authorities” (sometimes also called “hierarchy of authorities”) in the U.S. legal system – what sources of law prevail over other sources.
 
-### Module 4: How a Bill Becomes Law. This module will help you understand the process by which a bill becomes law in the federal system. We will discuss the ten steps involved, including the introduction of the bill, committee action, referral to the other chamber, and the possibility of a presidential veto. You will learn some of the ways in which congressional procedures, checks and balances, and political realities (by design) make the passage of laws difficult.
+Module 4: How a Bill Becomes Law. This module will help you understand the process by which a bill becomes law in the federal system. We will discuss the ten steps involved, including the introduction of the bill, committee action, referral to the other chamber, and the possibility of a presidential veto. You will learn some of the ways in which congressional procedures, checks and balances, and political realities (by design) make the passage of laws difficult.
 
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title: How to Write an Autobiographical Novel by Alexander Chee
 categories: ["books", "fiction", "chee alexander", "how to write an autobiographical novel"]
-permalink: pretty
+permalink: /:title
 ---
 
 This is a collection of autobiographical short stories. 

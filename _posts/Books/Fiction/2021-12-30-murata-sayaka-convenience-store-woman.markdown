@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Convenience Store Woman by Sayaka Murata
-categories: ["books", "murata sayaka", "convenience store woman"]
-permalink: pretty
+categories: ["books", "fiction", "murata sayaka", "convenience store woman"]
+permalink: /:title
 ---
 ### First sentence
 
