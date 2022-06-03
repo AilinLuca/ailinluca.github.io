@@ -6,11 +6,11 @@ permalink: /:title
 ---
 ### First sentence
 
-"A convenience store is a world of sound." (pg. 1)
+A convenience store is a world of sound. (pg. 1)
 
 ### Favorite sentence
 
-"'No, I can't go with you. Think of me as an animal, a convenience store animal. I can't betray my instinct.'" (pg. 162)
+"No, I can't go with you. Think of me as an animal, a convenience store animal. I can't betray my instinct." (pg. 162)
 
 I like how this is funny, but also the dramatic emotional peak of the story, when the woman realizes where she belongs. 
 
@@ -71,7 +71,7 @@ Sections:
 
 ### Last sentence
 
-"I could distinctly feel all my cells stirring within my skin as they responded in unison to the music reverberating on the other side of the glass." (pg. 163)
+I could distinctly feel all my cells stirring within my skin as they responded in unison to the music reverberating on the other side of the glass. (pg. 163)
 
 ### Thoughts
 

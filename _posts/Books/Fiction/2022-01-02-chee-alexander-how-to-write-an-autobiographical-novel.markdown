@@ -8,15 +8,15 @@ permalink: /:title
 This is a collection of autobiographical short stories. 
 
 ### The Curse
-- _First Sentence:_ "I spent the summer I turned fifteen on an exchange program in Tuxtla Gutierrez, the capital of the state of Chiapas, in Mexico, some three hundred miles north of the Guatemalan border." (pg. 1)
-- _Favorite Sentence:_ "He looked like a very sexy Neapolitan ice cream treat." (pg. 8)
-- _Last Sentence:_ "America now the exile of me." (pg. 16)
+- _First Sentence:_ I spent the summer I turned fifteen on an exchange program in Tuxtla Gutierrez, the capital of the state of Chiapas, in Mexico, some three hundred miles north of the Guatemalan border. (pg. 1)
+- _Favorite Sentence:_ He looked like a very sexy Neapolitan ice cream treat. (pg. 8)
+- _Last Sentence:_ America now the exile of me. (pg. 16)
 - _Summary:_ A summer spent as an exchange student in Mexico exposes the author to fitting in in a way he never felt in America.
 
 ### The Querent
-- _First Sentence:_ "In 1980, the parapsychologist Dr. Alex Tanous tested my seventh-grade class for psychic abilities, an event so clear in my mind, and so important to me, that I have questioned whether this actually happened, or whether I simply invented him." (pg. 17)
-- _Favorite Sentence:_ "If there’s a demon lurking when you read your cards, it is inside the querent when they ask about love or money." (pg. 31)
-- _Last Sentence:_ "What can you trust of what you can’t see?" (pg. 40)
+- _First Sentence:_ In 1980, the parapsychologist Dr. Alex Tanous tested my seventh-grade class for psychic abilities, an event so clear in my mind, and so important to me, that I have questioned whether this actually happened, or whether I simply invented him. (pg. 17)
+- _Favorite Sentence:_ If there’s a demon lurking when you read your cards, it is inside the querent when they ask about love or money. (pg. 31)
+- _Last Sentence:_ What can you trust of what you can’t see? (pg. 40)
 - _Summary:_ The author examines his lifelong relationship with tarot.
 
 ### The Writing Life
